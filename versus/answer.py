@@ -8,7 +8,10 @@ from versus.utils import git_stats_date_range, lines_of_code
 
 
 def ultimate_answer_by_date(
-    project: Project, formatter: Formatter, days: int
+    project: Project,
+    formatter: Formatter,
+    days: int,
+    date_start: datetime.datetime = None,
 ) -> pd.DataFrame:
     """
     Gives the ultimate answer to the question what would happen if I use
@@ -21,7 +24,8 @@ def ultimate_answer_by_date(
     lines_added = []
     lines_deleted = []
 
-    date_start = formatter.releases[0].upload_time
+    if date_start is None:
+        date_start = formatter.releases[0].upload_time
     while True:
         date_end = date_start + datetime.timedelta(days)
         if date_end > now:
